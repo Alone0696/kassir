@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %} Главная {% endblock %}
+{% block content %}
+
+<a  href="{% url 'logout' %}" style="float:right;margin:5px;" >Выйти</a>
+<a href="{% url 'kassa' %}">Касса</a>
+<a href="{% url 'zakupki' %}">Закупка</a>
+
+
+<div class="tab">
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Цена</th>
+            <th>Безналичный рассчет</th>
+            <th>Дата</th>
+            <th>Тип</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for i in all %}
+            <tr>
+                <td>{{i.item}}</td>
+                <td>{{i.price}}</td>
+                <td>
+                    {% if i.beznal == True %}
+                        Да
+                    {% endif %}
+                    {% if i.beznal == False %}
+                        Нет
+                    {% endif %}
+                </td>
+                <td>{{i.date}}</td>
+                <td>{{i.type}}</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+</div>
+
+<form method="post" >
+    {% csrf_token %}
+    <span>Рассчитать всю кассу за</span>
+    <input type="hidden" value="Касса" name="type" >
+    <input type="date" required name="date" >
+    <button type="submit">Рассчитать</button>
+    <span>Всего:<b>{{s_k}}</b>.Из них наличными:<b>{{s_k_n}}</b> безналичными:<b>{{s_k_b}}</b></span>
+</form>
+
+<form method="post" >
+    {% csrf_token %}
+    <span>Рассчитать всю закупку за</span>
+    <input type="hidden" value="Закупка" name="type" >
+    <input type="date" required name="date">
+    <button type="submit">Рассчитать</button>
+    <span>Сумма: <b>{{s_z}}</b></span>
+</form>
+
+<form method="get" action="{% url 'get_kassa' %}" >
+    <span>Сформировать список кассы за</span>
+    <input type="date" required name="date">
+    <button type="submit">Открыть</button>
+</form>
+
+{% endblock %}

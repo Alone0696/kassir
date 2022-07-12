@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} {{date}} {% endblock %}
+{% block content %}
+
+
+<h1>Список за {{date}}</h1>
+<p>Всего:<b>{{s_k}}</b>.Из них наличными:<b>{{s_k_n}}</b> безналичными:<b>{{s_k_b}}</b></p>
+
+<a href="{% url 'main' %}">Главная</a>
+
+<div class="tab">
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Безналичный рассчет</th>
+                <th>Дата</th>
+                <th>Тип</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for i in all %}
+                <tr>
+                    <td>{{i.item}}</td>
+                    <td>{{i.price}}</td>
+                    <td>
+                        {% if i.beznal == True %}
+                            Да
+                        {% endif %}
+                        {% if i.beznal == False %}
+                            Нет
+                        {% endif %}
+                    </td>
+                    <td>{{i.date}}</td>
+                    <td>{{i.type}}</td>
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+
+
+{% endblock %}

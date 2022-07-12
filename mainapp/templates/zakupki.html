@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %} Закупка {% endblock %}
+{% block content %}
+
+<h1>Закупки</h1>
+<h3>{{date}}</h3>
+
+<a href="{% url 'main' %}">Главная</a>
+
+<form id="form" method="post">
+    {% csrf_token %}
+    <input type="text" name="item" placeholder="Товар" required >
+    <input type="number" step="0.01" name="price" placeholder="Цена" required >
+    <button type="submit">Отправить</button>
+</form>
+
+
+<div class="tab" >
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Цена</th>
+            <th>Дата</th>
+            <th>Тип</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for i in all %}
+            <tr>
+                <td>{{i.item}}</td>
+                <td>{{i.price}}</td>
+                <td>{{i.date}}</td>
+                <td>{{i.type}}</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+</div>
+<span><b>Всего:{{s}}</b></span>
+{% endblock %}
